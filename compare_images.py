@@ -23,8 +23,8 @@ def get_landmarks(img):
         return None
 
 # Load the images
-img1 = cv2.imread('face1.png')
-img2 = cv2.imread('face2.png')
+img1 = cv2.imread('face3.png')
+img2 = cv2.imread('skull.jpg')
 
 # Detect landmarks
 landmarks1 = get_landmarks(img1)
