@@ -46,16 +46,24 @@ if landmarks1 is not None and landmarks2 is not None:
     diff_gray = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
 
     # Apply a threshold to highlight areas of similarity (low difference)
-    _, thresholded_diff = cv2.threshold(diff_gray, 30, 255, cv2.THRESH_BINARY_INV)
+    _, thresholded_diff_similar = cv2.threshold(diff_gray, 30, 255, cv2.THRESH_BINARY_INV)
 
     # Mask the original image with the thresholded difference to highlight similar areas
-    similar_areas = cv2.bitwise_and(img2, img2, mask=thresholded_diff)
+    similar_areas = cv2.bitwise_and(img2, img2, mask=thresholded_diff_similar)
 
-    # Save the result
+    # Apply a threshold to highlight areas of dissimilarity (high difference)
+    _, thresholded_diff_dissimilar = cv2.threshold(diff_gray, 30, 255, cv2.THRESH_BINARY)
+
+    # Mask the original image with the thresholded difference to highlight dissimilar areas
+    dissimilar_areas = cv2.bitwise_and(img2, img2, mask=thresholded_diff_dissimilar)
+
+    # Save both similar and dissimilar images
     cv2.imwrite("similar_areas.jpg", similar_areas)
+    cv2.imwrite("dissimilar_areas.jpg", dissimilar_areas)
 
     # Display the results
     cv2.imshow("Similar Areas", similar_areas)
+    cv2.imshow("Dissimilar Areas", dissimilar_areas)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 else:
